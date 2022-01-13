@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Button, Input, Typography } from 'antd';
+import { Button, Input, message, Typography } from 'antd';
 import { useHistory } from 'react-router-dom';
 
 const { Title } = Typography;
@@ -24,11 +24,14 @@ const Login = () => {
       })
         .then((res) => res.json())
         .then((res) => {
-          localStorage.setItem('token', `Bearer ${res.token}`);
-        })
-        .then(() => {
-          setLoading(false);
-          history.push('/home');
+          if (res?.token) {
+            localStorage.setItem('token', `Bearer ${res.token}`);
+            setLoading(false);
+            history.push('/home');
+          } else {
+            message.error(res?.message);
+            setLoading(false);
+          }
         });
     } catch (_) {
       console.error(_.message, 'errorr');

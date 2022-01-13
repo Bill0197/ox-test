@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home';
 import Products from './components/Products';
+import ProductsList from './components/ProductsList';
 
 export default function Routes() {
   return (
@@ -15,6 +16,9 @@ export default function Routes() {
       </Route>
       <Route exact path='/products'>
         <Products />
+      </Route>
+      <Route exact path='/products-list'>
+        <ProductsList />
       </Route>
 
       <Redirect to={'/home'} />

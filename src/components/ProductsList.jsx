@@ -5,7 +5,7 @@ import { Space, Pagination, Table, Skeleton } from 'antd';
 import { getCurrentUser } from '../http';
 import { useHistory } from 'react-router-dom';
 
-export default function Products() {
+export default function ProductsList() {
   const { REACT_APP_BASE_URL } = process.env;
   const [size, setSize] = useState(10);
   const [page, setPage] = useState(0);
