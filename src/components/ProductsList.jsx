@@ -19,27 +19,27 @@ export default function ProductsList() {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const getProducts = async () => {
-    setLoading(true);
-    let res;
-
-    try {
-      res = await axios.get(
-        `${REACT_APP_BASE_URL}/variations?page=${page}&size=${size}`
-      );
-
-      setProducts(res?.data?.items);
-      setTotal(res?.data?.total_count);
-      setLoading(false);
-    } catch (err) {
-      message.error(err?.message);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const getProducts = async () => {
+      setLoading(true);
+      let res;
+
+      try {
+        res = await axios.get(
+          `${REACT_APP_BASE_URL}/variations?page=${page}&size=${size}`
+        );
+
+        setProducts(res?.data?.items);
+        setTotal(res?.data?.total_count);
+        setLoading(false);
+      } catch (err) {
+        message.error(err?.message);
+        setLoading(false);
+      }
+    };
+
     getProducts();
-  }, [page, size]);
+  }, [page, size, REACT_APP_BASE_URL]);
 
   const onShowSizeChange = (current, size) => {
     setSize(size);
@@ -112,7 +112,6 @@ export default function ProductsList() {
 
       <div
         style={{
-          margin: '10vh auto',
           width: '80vw',
           margin: 'auto',
           padding: '30px',
