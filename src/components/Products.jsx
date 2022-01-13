@@ -10,7 +10,7 @@ const { Title } = Typography;
 export default function Products() {
   const { REACT_APP_BASE_URL } = process.env;
   const [size, setSize] = useState(10);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ export default function Products() {
   };
 
   const handlePaginationChange = (n) => {
-    setPage((page) => page + n);
+    setPage(n);
   };
 
   const columns = [
@@ -108,8 +108,8 @@ export default function Products() {
 
         <Space>
           <Pagination
-            defaultCurrent={page + 1}
-            current={page + 1}
+            defaultCurrent={page === 0 ? 1 : page}
+            current={page === 0 ? 1 : page}
             total={total}
             defaultPageSize={size}
             showSizeChanger
