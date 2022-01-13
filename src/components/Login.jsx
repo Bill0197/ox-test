@@ -3,12 +3,10 @@ import styled from 'styled-components';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Button, Input, message, Typography } from 'antd';
-import { useHistory } from 'react-router-dom';
 
 const { Title } = Typography;
 
 const Login = () => {
-  const history = useHistory();
   const { REACT_APP_BASE_URL } = process.env;
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +26,7 @@ const Login = () => {
             localStorage.setItem('token', `Bearer ${res.token}`);
 
             setLoading(false);
-            history.push('/home');
+            window.location = '/home';
           } else {
             message.error(res?.message);
             setLoading(false);

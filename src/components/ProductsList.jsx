@@ -127,7 +127,7 @@ export default function ProductsList() {
           onChange={onChange}
         />
 
-        {!loading && <Title level={2}>Total: {total}</Title>}
+        {!loading && <Title level={2}>Total: {total || 0}</Title>}
 
         {loading ? (
           <Skeleton active />
