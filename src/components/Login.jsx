@@ -1,88 +1,104 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { Button, Input, Typography } from 'antd';
 import { useHistory } from 'react-router-dom';
-import { Skeleton, Button, Input } from 'antd';
 
-const Login = (props) => {
+const { Title } = Typography;
+
+const Login = () => {
   const history = useHistory();
   const { REACT_APP_BASE_URL } = process.env;
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    token.token &&
-      history.push(
-        props?.location?.state?.from ? props.location.state.from : '/home'
-      );
-  }, [token.token]);
-
   const handleSubmit = async ({ email, password }) => {
-    setLoad(true);
+    setLoading(true);
     try {
-      data.meta.token &&
-        (await fetch(
-          `${REACT_APP_BASE_URL}/security/auth_check&'_username=${email}&_password=${password}&_subdomain=toko`,
-          {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${data.token}` },
-          }
-        )
-          .then((res) => res.json())
-          .then((res) => {
-            localStorage.setItem('token', `Bearer ${res.token}`);
-          })
-          .then(() => console.log('logged in')));
-      setLoading(false);
+      fetch(`${REACT_APP_BASE_URL}/security/auth_check`, {
+        body: '_username=user_task&_password=user_task&_subdomain=toko',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        method: 'POST',
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          localStorage.setItem('token', `Bearer ${res.token}`);
+        })
+        .then(() => {
+          setLoading(false);
+          history.push('/home');
+        });
     } catch (_) {
       console.error(_.message);
     }
   };
 
   return (
-    <Container>
+    <div>
       <Formik
         initialValues={{ email: '', password: '' }}
         validationSchema={Yup.object({
           password: Yup.string()
             .min(3, 'Password should be of minimum 3 characters length')
             .required('Required'),
-          email: Yup.string().email('Enter a valid email').required('Required'),
         })}
         onSubmit={handleSubmit}
       >
         {(formik) => (
           <Form onSubmit={formik.handleSubmit}>
+            <Title level={2}>LOG IN</Title>
+
             <Input
+              size='large'
               id='email'
-              type='email'
+              type='text'
               placeholder='Email'
               {...formik.getFieldProps('email')}
             />
             <ErrorMessage name='email'>
-              {(msg) => <Message>{msg}</Message>}
+              {(msg) => <div>{msg}</div>}
             </ErrorMessage>
             <Input
+              size='large'
               id='password'
               type='password'
               placeholder='Password'
               {...formik.getFieldProps('password')}
             />
             <ErrorMessage name='password'>
-              {(msg) => <Message>{msg}</Message>}
+              {(msg) => <div>{msg}</div>}
             </ErrorMessage>
 
-            <Button type='primary'>
-              {loading ? (
-                <Skeleton loading={true} size='large' />
-              ) : (
-                <div>LOG IN</div>
-              )}
+            <Button
+              htmlType='submit'
+              loading={loading}
+              type='primary'
+              size='large'
+              block
+            >
+              LOG IN
             </Button>
           </Form>
         )}
       </Formik>
-    </Container>
+    </div>
   );
 };
 
 export default Login;
+
+export const Form = styled.form`
+  background: white;
+  width: 30%;
+  min-width: 300px;
+  padding: 20px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20vh;
+`;

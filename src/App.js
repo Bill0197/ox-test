@@ -1,11 +1,18 @@
+import Routes from './Routes';
+import axios from 'axios';
+
 function App() {
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <h1>APP</h1>
-      </header>
-    </div>
-  );
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    axios.interceptors.request.use(function (config) {
+      config.headers.authorization = token;
+
+      return config;
+    });
+  }
+
+  return <Routes />;
 }
 
 export default App;
