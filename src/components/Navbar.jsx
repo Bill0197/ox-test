@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { Button } from 'antd';
+import { logout } from '../http';
 
 export default function Navbar() {
   return (
     <div>
       <div id='navbar'>
         <div id='navbar-brand'>
-          <a href='/home'>OX test </a>
+          <Link to='/home'>OX test </Link>
         </div>
         <nav>
           <ul>
@@ -17,6 +19,12 @@ export default function Navbar() {
               <NavLink exact to='products'>
                 Products
               </NavLink>
+            </li>
+
+            <li>
+              <Button type='primary' onClick={logout}>
+                Log out
+              </Button>
             </li>
           </ul>
         </nav>

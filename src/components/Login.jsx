@@ -16,7 +16,7 @@ const Login = () => {
     setLoading(true);
     try {
       fetch(`${REACT_APP_BASE_URL}/security/auth_check`, {
-        body: '_username=user_task&_password=user_task&_subdomain=toko',
+        body: `_username=${email}&_password=${password}&_subdomain=toko`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -31,7 +31,7 @@ const Login = () => {
           history.push('/home');
         });
     } catch (_) {
-      console.error(_.message);
+      console.error(_.message, 'errorr');
     }
   };
 
