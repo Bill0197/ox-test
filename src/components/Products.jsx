@@ -77,7 +77,7 @@ export default function Products() {
   const user = getCurrentUser();
 
   if (!user) {
-    history.push('#/sign-in');
+    history.push('/sign-in');
   }
 
   return (

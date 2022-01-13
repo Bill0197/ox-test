@@ -80,7 +80,7 @@ export default function ProductsList() {
   const user = getCurrentUser();
 
   if (!user) {
-    history.push('#/sign-in');
+    history.push('/sign-in');
   }
 
   const onChange = ({ target: { value } }) => {
