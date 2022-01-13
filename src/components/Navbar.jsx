@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from 'antd';
-import { getCurrentUser, logout } from '../http';
+import { getCurrentUser } from '../http';
 
 export default function Navbar() {
   const activeStyles = {
@@ -53,9 +53,14 @@ export default function Navbar() {
             )}
 
             {user && (
-              <Button type='primary' size='large' onClick={logout}>
-                Log out
-              </Button>
+              <Link
+                to='#/sign-in'
+                onClick={() => localStorage.removeItem('token')}
+              >
+                <Button type='primary' size='large'>
+                  Log out
+                </Button>
+              </Link>
             )}
 
             {!user && (
