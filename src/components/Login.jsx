@@ -26,7 +26,7 @@ const Login = () => {
             localStorage.setItem('token', `Bearer ${res.token}`);
 
             setLoading(false);
-            window.location = '/home';
+            window.location = '#/home';
           } else {
             message.error(res?.message);
             setLoading(false);

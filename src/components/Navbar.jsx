@@ -17,14 +17,14 @@ export default function Navbar() {
     <div>
       <div id='navbar'>
         <div id='navbar-brand'>
-          <Link to='/home'>OX test </Link>
+          <Link to='#/home'>OX test </Link>
         </div>
         <nav>
           <ul>
             {user && (
               <li>
                 <Link
-                  to='/home'
+                  to='#/home'
                   style={pathname === '/home' ? activeStyles : {}}
                 >
                   Home
@@ -34,7 +34,7 @@ export default function Navbar() {
             {user && (
               <li>
                 <Link
-                  to='/products'
+                  to='#/products'
                   style={pathname === '/products' ? activeStyles : {}}
                 >
                   Products
@@ -44,7 +44,7 @@ export default function Navbar() {
             {user && (
               <li>
                 <Link
-                  to='/products-list'
+                  to='#/products-list'
                   style={pathname === '/products-list' ? activeStyles : {}}
                 >
                   Products List
@@ -59,7 +59,7 @@ export default function Navbar() {
             )}
 
             {!user && (
-              <Link to='/sign-in'>
+              <Link to='#/sign-in'>
                 <Button type='primary' size='large'>
                   Log in
                 </Button>
