@@ -1,13 +1,18 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from 'antd';
-import { logout } from '../http';
+import { getCurrentUser, logout } from '../http';
 
 export default function Navbar() {
   const activeStyles = {
     background: '#1890ff',
     color: '#fff',
   };
+
+  const { pathname } = useLocation();
+
+  const user = getCurrentUser();
+
   return (
     <div>
       <div id='navbar'>
@@ -16,27 +21,50 @@ export default function Navbar() {
         </div>
         <nav>
           <ul>
-            <li>
-              <NavLink activeStyle={activeStyles} to='/home'>
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeStyle={activeStyles} exact to='/products'>
-                Products
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeStyle={activeStyles} exact to='/products-list'>
-                Products List
-              </NavLink>
-            </li>
+            {user && (
+              <li>
+                <Link
+                  to='/home'
+                  style={pathname === '/home' ? activeStyles : {}}
+                >
+                  Home
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li>
+                <Link
+                  to='/products'
+                  style={pathname === '/products' ? activeStyles : {}}
+                >
+                  Products
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li>
+                <Link
+                  to='/products-list'
+                  style={pathname === '/products-list' ? activeStyles : {}}
+                >
+                  Products List
+                </Link>
+              </li>
+            )}
 
-            <li>
+            {user && (
               <Button type='primary' size='large' onClick={logout}>
                 Log out
               </Button>
-            </li>
+            )}
+
+            {!user && (
+              <Link to='/sign-in'>
+                <Button type='primary' size='large'>
+                  Log in
+                </Button>
+              </Link>
+            )}
           </ul>
         </nav>
       </div>

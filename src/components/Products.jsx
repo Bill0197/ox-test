@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Space, Pagination, Table, Skeleton } from 'antd';
 import { getCurrentUser } from '../http';
 import { useHistory } from 'react-router-dom';
+import { message, Typography } from 'antd';
+const { Title } = Typography;
 
 export default function Products() {
   const { REACT_APP_BASE_URL } = process.env;
@@ -27,7 +29,8 @@ export default function Products() {
       setTotal(res?.data?.total_count);
       setLoading(false);
     } catch (err) {
-      console.log(err);
+      message.error(err?.message);
+      setLoading(false);
     }
   };
 
@@ -74,7 +77,7 @@ export default function Products() {
   const user = getCurrentUser();
 
   if (!user) {
-    history.push('/login');
+    history.push('/sign-in');
   }
 
   return (
@@ -89,11 +92,17 @@ export default function Products() {
           padding: '30px',
         }}
       >
+        {!loading && <Title level={2}>Total: {total}</Title>}
         {loading ? (
           <Skeleton active />
         ) : (
           <>
-            <Table pagination={false} dataSource={products} columns={columns} />
+            <Table
+              pagination={false}
+              dataSource={products}
+              columns={columns}
+              rowKey='id'
+            />
           </>
         )}
 

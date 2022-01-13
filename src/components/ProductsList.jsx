@@ -4,6 +4,9 @@ import axios from 'axios';
 import { Space, Pagination, Table, Skeleton } from 'antd';
 import { getCurrentUser } from '../http';
 import { useHistory } from 'react-router-dom';
+import { Input, message, Typography } from 'antd';
+const { Title } = Typography;
+const { Search } = Input;
 
 export default function ProductsList() {
   const { REACT_APP_BASE_URL } = process.env;
@@ -11,6 +14,8 @@ export default function ProductsList() {
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
   const [products, setProducts] = useState([]);
+  const [showSorted, setShowSorted] = useState(false);
+  const [sortedProducts, setSortedProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
@@ -27,7 +32,8 @@ export default function ProductsList() {
       setTotal(res?.data?.total_count);
       setLoading(false);
     } catch (err) {
-      console.log(err);
+      message.error(err?.message);
+      setLoading(false);
     }
   };
 
@@ -74,8 +80,31 @@ export default function ProductsList() {
   const user = getCurrentUser();
 
   if (!user) {
-    history.push('/login');
+    history.push('/sign-in');
   }
+
+  const onChange = ({ target: { value } }) => {
+    if (value === '') {
+      setShowSorted(false);
+      return setProducts(products);
+    }
+  };
+
+  const onSearch = (value) => {
+    const res = products?.filter((p) =>
+      p?.name?.includes(value?.toUpperCase())
+    );
+
+    res?.sort(function (a, b) {
+      var textA = a.name?.toUpperCase();
+      var textB = b.name?.toUpperCase();
+
+      return textA < textB ? -1 : textA > textB ? 1 : 0;
+    });
+
+    setShowSorted(true);
+    setSortedProducts(res);
+  };
 
   return (
     <div>
@@ -89,11 +118,27 @@ export default function ProductsList() {
           padding: '30px',
         }}
       >
+        <Search
+          placeholder='Search by product name...'
+          allowClear
+          enterButton='Search'
+          size='large'
+          onSearch={onSearch}
+          onChange={onChange}
+        />
+
+        {!loading && <Title level={2}>Total: {total}</Title>}
+
         {loading ? (
           <Skeleton active />
         ) : (
           <>
-            <Table pagination={false} dataSource={products} columns={columns} />
+            <Table
+              rowKey='id'
+              pagination={false}
+              dataSource={showSorted ? sortedProducts : products}
+              columns={columns}
+            />
           </>
         )}
 

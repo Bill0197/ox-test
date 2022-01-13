@@ -12,11 +12,11 @@ const Login = () => {
   const { REACT_APP_BASE_URL } = process.env;
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async ({ email, password }) => {
+  const handleSubmit = async ({ username, password }) => {
     setLoading(true);
     try {
       fetch(`${REACT_APP_BASE_URL}/security/auth_check`, {
-        body: `_username=${email}&_password=${password}&_subdomain=toko`,
+        body: `_username=${username}&_password=${password}&_subdomain=toko`,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -26,6 +26,7 @@ const Login = () => {
         .then((res) => {
           if (res?.token) {
             localStorage.setItem('token', `Bearer ${res.token}`);
+
             setLoading(false);
             history.push('/home');
           } else {
@@ -41,10 +42,10 @@ const Login = () => {
   return (
     <div>
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ username: '', password: '' }}
         validationSchema={Yup.object({
           password: Yup.string()
-            .min(3, 'Password should be of minimum 3 characters length')
+            .min(5, 'Password should be of minimum 5 characters length')
             .required('Required'),
         })}
         onSubmit={handleSubmit}
@@ -55,12 +56,12 @@ const Login = () => {
 
             <Input
               size='large'
-              id='email'
+              id='username'
               type='text'
-              placeholder='Email'
-              {...formik.getFieldProps('email')}
+              placeholder='User name'
+              {...formik.getFieldProps('username')}
             />
-            <ErrorMessage name='email'>
+            <ErrorMessage name='username'>
               {(msg) => <div>{msg}</div>}
             </ErrorMessage>
             <Input

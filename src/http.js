@@ -15,7 +15,7 @@ export function logout() {
   try {
     localStorage.removeItem('token');
 
-    return (window.location = '/login');
+    return (window.location = '/sign-in');
   } catch (err) {
     console.log(err, 'err in log out');
   }

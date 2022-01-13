@@ -8,7 +8,7 @@ import ProductsList from './components/ProductsList';
 export default function Routes() {
   return (
     <Switch>
-      <Route exact path='/login'>
+      <Route exact path='/sign-in'>
         <Login />
       </Route>
       <Route exact path='/home'>

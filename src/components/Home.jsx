@@ -6,7 +6,9 @@ export default function Home() {
     <div>
       <Navbar />
 
-      <h1>Home</h1>
+      <h1 style={{ textAlign: 'center', marginTop: '10vh' }}>
+        Welcome to my test project for OX System
+      </h1>
     </div>
   );
 }
